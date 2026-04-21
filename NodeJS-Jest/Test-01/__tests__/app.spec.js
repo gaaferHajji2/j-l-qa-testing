@@ -8,3 +8,9 @@ test('Mocking function', async () => {
     const res = await getData()
     expect(res).toEqual('bytes')
 })
+
+test('Mocking function', async () => {
+    crypto.randomBytes.mockImplementationOnce(() => Promise.resolve('bytes'))
+    const res = await getData()
+    expect(res).toEqual('bytes')
+})

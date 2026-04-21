@@ -1,0 +1,8 @@
+__pycache__
+.venv
+.pytest_cache
+*.png
+*.jpeg
+*.jpg
+*.webm
+node_modules/

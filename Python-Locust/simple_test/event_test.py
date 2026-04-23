@@ -7,7 +7,6 @@ def on_start_test(environment, **kwargs):
 @events.test_stop.add_listener
 def on_stop_test(environment, **kwargs):
     print("The test has been finished")
-
 class SimpleEvent(HttpUser):
     @task(3)
     def task_01(self):

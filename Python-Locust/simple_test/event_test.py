@@ -19,8 +19,12 @@ def on_locust_init(environment, **kwargs):
 class SimpleEvent(HttpUser):
     @task(3)
     def task_01(self):
-        self.client.get('/')
+        response = self.client.get('/')
+        print(f"Task 1 response status code: {response.status_code}")
+        print(f"The response text of Task 1: {response.text}")
 
     @task
     def task_02(self):
-        self.client.post('/')
+        response = self.client.post('/')
+        print(f"Task 2 response status code: {response.status_code}")
+        print(f"The response text of Task 2: {response.text}")

@@ -1,7 +1,9 @@
 from datetime import datetime
 from pathlib import Path
-import logging
 from selenium.webdriver.remote.webdriver import WebDriver
+from utils.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 def capture_screenshot(driver: WebDriver, test_name: str, output_dir: Path) -> str:
     """
@@ -16,5 +18,5 @@ def capture_screenshot(driver: WebDriver, test_name: str, output_dir: Path) -> s
         driver.save_screenshot(str(filepath))
         return str(filepath)
     except Exception as e:
-        logging.error(f"Failed to capture screenshot: {e}")
+        logger.error(f"Failed to capture screenshot: {e}")
         return None

@@ -1,8 +1,9 @@
+from abc import ABC
 from datetime import datetime
 from playwright.async_api import Page
 from utils.logger import logger
 
-class BasePage:
+class BasePage(ABC):
     def __init__(self, page: Page):
         self.page = page
 

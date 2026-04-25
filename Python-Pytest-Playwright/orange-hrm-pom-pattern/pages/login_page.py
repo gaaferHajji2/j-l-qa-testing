@@ -1,3 +1,4 @@
+from playwright.async_api import expect
 from pages.base_page import BasePage
 from utils.logger import logger
 
@@ -28,7 +29,7 @@ class LoginPage(BasePage):
 
     async def get_error_message(self):
         error = self.page.get_by_text(self.ERROR_TEXT)
-        # await expect(error).to_be_visible(timeout=5000)
+        await expect(error).to_be_visible(timeout=5000) # need refactor
         text = await error.inner_text()
         logger.info(f"Error message displayed: {text}")
         return text

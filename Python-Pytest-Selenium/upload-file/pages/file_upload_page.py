@@ -79,4 +79,5 @@ class FileUploadPage(BasePage):
             status_elem = self.find_element(self.UPLOAD_STATUS_LOCATOR)
             return status_elem.text
         except Exception:
+            logger.error("Status element not found")
             return "Status element not found"

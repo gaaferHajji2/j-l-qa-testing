@@ -6,6 +6,7 @@ from utils.logger import logger
 # Hook to attach test outcome for screenshot fixture
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
+    logger.info("Running pytest_runtest_makereport")
     outcome = yield
     rep = outcome.get_result()
     setattr(item, f"rep_{rep.when}", rep)

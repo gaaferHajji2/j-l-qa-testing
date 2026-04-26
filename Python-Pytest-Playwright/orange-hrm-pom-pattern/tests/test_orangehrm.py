@@ -24,3 +24,10 @@ async def test_invalid_login_shows_error(page):
     assert "Invalid credentials" in error
     await login_page.take_screenshot("invalid_login_error")  # Required screenshot
     logger.info("✅ Test 2 PASSED")
+
+@pytest.mark.asyncio
+async def test_navigate_to_admin_module(logged_in_page):
+    """Test 3: Navigate to Admin module (uses logged-in fixture)"""
+    dashboard_page = DashboardPage(logged_in_page)
+    await dashboard_page.navigate_to_admin()
+    logger.info("✅ Test 3 PASSED")

@@ -33,3 +33,6 @@ class LoginPage(BasePage):
         text = await error.inner_text()
         logger.info(f"Error message displayed: {text}")
         return text
+
+    async def check_username_element(self):
+        await expect(self.page.get_by_placeholder("Username")).to_be_visible()

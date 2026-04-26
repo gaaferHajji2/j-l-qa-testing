@@ -31,3 +31,10 @@ async def test_navigate_to_admin_module(logged_in_page):
     dashboard_page = DashboardPage(logged_in_page)
     await dashboard_page.navigate_to_admin()
     logger.info("✅ Test 3 PASSED")
+
+@pytest.mark.asyncio
+async def test_navigate_to_pim_module(logged_in_page):
+    """Test 4: Navigate to PIM (Employee List)"""
+    dashboard_page = DashboardPage(logged_in_page)
+    await dashboard_page.navigate_to_pim()
+    logger.info("✅ Test 4 PASSED")

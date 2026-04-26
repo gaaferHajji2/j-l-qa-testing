@@ -9,6 +9,7 @@ def pytest_runtest_makereport(item, call):
     logger.info("Running pytest_runtest_makereport")
     outcome = yield
     rep = outcome.get_result()
+    logger.info(f"Thw rep is: {rep}, and rep is: {rep}")
     setattr(item, f"rep_{rep.when}", rep)
     return rep
 

@@ -1,4 +1,11 @@
-import { registerUser } from "./authController";
+import bcrypt from "bcryptjs"
+import { registerUser } from "./authController"
+import User from "../models/users"
+// import { getJwtToken } from "../utils/helpers"
+
+jest.mock("../utils/helpers", {
+    getJwtToken: jest.fn(() => 'Token@123')
+})
 
 const mockReq = () => {
     return {
@@ -17,8 +24,16 @@ const mockResp = () => {
     }
 }
 
+const mockUserResp = {
+    id: 1,
+    name: "Jafar Loka",
+    email: "jloka@jloka.com",
+    password: "Hash@Test@123"
+}
+
 describe("Register User Tests", () => {
     it("Register User Successfully", async ()=>{
-
+        jest.spyOn(bcrypt, 'hash').mockResolvedValueOnce("Hash@Test@123")
+        jest.spyOn(User, 'create').mockResolvedValueOnce(userResp)
     })
 })

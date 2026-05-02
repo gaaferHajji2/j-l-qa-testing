@@ -14,13 +14,10 @@ class BookspiderSpider(scrapy.Spider):
                 'url': books.css('h3 a').attrib['href']
             }
         next_page = response.css('li.next a::attr(href)').get()
-
-        print(f"The next page is: {next_page}")
         
         if next_page is not None:
             if 'catalogue/' in next_page:
                 next_page_url = 'https://books.toscrape.com/' + next_page
             else:
                 next_page_url = 'https://books.toscrape.com/catalogue/' + next_page
-            print(f"The next page url is: {next_page_url}")
             yield response.follow(next_page_url, callback=self.parse)

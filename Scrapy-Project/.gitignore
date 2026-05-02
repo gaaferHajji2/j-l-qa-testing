@@ -2,5 +2,6 @@
 *.exe
 *.png
 *.zip
+*.log
 __pycache__/
 cache

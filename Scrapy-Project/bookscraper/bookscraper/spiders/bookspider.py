@@ -17,3 +17,4 @@ class BookspiderSpider(scrapy.Spider):
         
         if next_page is not None:
             next_page_url = 'https://books.toscrape.com' + next_page
+            yield response.follow(next_page_url, callback=self.parse)

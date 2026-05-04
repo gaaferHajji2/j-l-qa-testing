@@ -36,7 +36,7 @@ afterEach(() => {
 })
 
 describe("Register User Tests", () => {
-    it("Register User Successfully", async ()=>{
+    it("Register User Successfully", async () => {
         jest.spyOn(bcrypt, 'hash').mockResolvedValueOnce("Hash@Test@123")
         jest.spyOn(User, 'create').mockResolvedValueOnce(mockUserResp)
 
@@ -51,6 +51,22 @@ describe("Register User Tests", () => {
             name: "Jafar Loka",
             email: "jloka@jloka.com",
             password: "Hash@Test@123"
+        })
+    })
+
+    it('should throw a validation error', async () => {
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+
+        mockedReq.body.name = null
+        mockedReq.body.email = null
+        mockedReq.body.password = null
+
+        await registerUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(400)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            error: "Please enter all values",
         })
     })
 })

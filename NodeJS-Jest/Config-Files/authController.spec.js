@@ -69,4 +69,15 @@ describe("Register User Tests", () => {
             error: "Please enter all values",
         })
     })
+
+    it('should throw error for duplicate email', async () => {
+        jest.spyOn(User, 'create').mockRejectedValueOnce({ code: 11000})
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+
+        await registerUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenLastCalledWith(400)
+        expect(mockedResp.json).toHaveBeenCalledWith({ error: "Duplicate email" })
+    })
 })

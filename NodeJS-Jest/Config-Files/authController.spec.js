@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import { registerUser } from "./authController"
+import { registerUser, loginUser } from "./authController"
 import User from "../models/users"
 import { getJwtToken } from "../utils/helpers"
 
@@ -71,7 +71,7 @@ describe("Register User Tests", () => {
     })
 
     it('should throw error for duplicate email', async () => {
-        jest.spyOn(User, 'create').mockRejectedValueOnce({ code: 11000})
+        jest.spyOn(User, 'create').mockRejectedValueOnce({ code: 11000 })
         const mockedReq = mockReq()
         const mockedResp = mockResp()
 
@@ -79,5 +79,40 @@ describe("Register User Tests", () => {
 
         expect(mockedResp.status).toHaveBeenLastCalledWith(400)
         expect(mockedResp.json).toHaveBeenCalledWith({ error: "Duplicate email" })
+    })
+})
+
+describe("Login User Tests", () => {
+    it("should throw validation error", async () => {
+        const mockedReq = mockReq().body = { body: {} }
+        const mockedResp = mockResp()
+
+        await loginUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(400)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            error: "Please enter email & Password",
+        })
+    })
+
+    it('should return invalid request for email or password', async () => {
+        jest.spyOn(User, 'findOne').mockImplementation(() => ({
+            select: jest.fn(() => null), // Returns the same mock object
+            // exec: jest.fn().mockResolvedValue({
+            //     _id: '123',
+            //     email: 'test@example.com',
+            //     password: 'hashedpassword' // Included because of +password
+            // }),
+        }));
+
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+
+        await loginUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(401)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            error: "Invalid Email or Password",
+        })
     })
 })

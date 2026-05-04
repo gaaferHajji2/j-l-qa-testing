@@ -25,11 +25,15 @@ const mockResp = () => {
 }
 
 const mockUserResp = {
-    id: 1,
+    id: "507f1f77bcf86cd799439011",
     name: "Jafar Loka",
     email: "jloka@jloka.com",
     password: "Hash@Test@123"
 }
+
+afterEach(() => {
+    jest.restoreAllMocks()
+})
 
 describe("Register User Tests", () => {
     it("Register User Successfully", async ()=>{
@@ -43,5 +47,10 @@ describe("Register User Tests", () => {
 
         expect(mockedResp.status).toHaveBeenCalledWith(201)
         expect(mockedResp.json).toHaveBeenCalledWith({ token: 'Token@123' })
+        expect(User.create).toHaveBeenCalledWith({
+            name: "Jafar Loka",
+            email: "jloka@jloka.com",
+            password: "Hash@Test@123"
+        })
     })
 })

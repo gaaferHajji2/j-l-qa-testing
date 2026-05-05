@@ -79,5 +79,9 @@ afterEach(() => {
 })
 
 describe("The Jobs Controller Test", () => {
-
+    describe("Get All Jobs", () => {
+        it("should return all jobs array", async () => {
+            
+        })
+    })
 })

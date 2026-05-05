@@ -115,4 +115,42 @@ describe("Login User Tests", () => {
             error: "Invalid Email or Password",
         })
     })
+
+    it("should return password is incorrect", async () => {
+        jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(false)
+        jest.spyOn(User, 'findOne').mockImplementation(() => ({
+            select: jest.fn(() => null), // Returns the same mock object
+            exec: jest.fn().mockResolvedValue({
+                _id: '123',
+                name: "Jafar Loka",
+                email: 'test@example.com',
+                password: 'hashedpassword' // Included because of +password
+            }),
+        }));
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+        await loginUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(401)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            error: "Invalid Email or Password",
+        })
+    })
+
+    it("should return valid token", async() => {
+        jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(() => true)
+        jest.spyOn(User, 'findOne').mockImplementation(() => ({
+            select: jest.fn(() => mockUserResp), // Returns the same mock object
+            exec: jest.fn().mockResolvedValue(mockUserResp),
+        }));
+
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+        await loginUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(200)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            token: 'Token@123'
+        })
+    })
 })

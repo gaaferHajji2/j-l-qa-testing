@@ -137,11 +137,11 @@ describe("Login User Tests", () => {
         })
     })
 
-    it("should return valid token", async() => {
+    it("should return valid token", async () => {
         jest.spyOn(bcrypt, 'compare').mockResolvedValueOnce(() => true)
         jest.spyOn(User, 'findOne').mockImplementation(() => ({
             select: jest.fn(() => mockUserResp), // Returns the same mock object
-            exec: jest.fn().mockResolvedValue(mockUserResp),
+            // exec: jest.fn().mockResolvedValue(mockUserResp),
         }));
 
         const mockedReq = mockReq()
@@ -151,6 +151,22 @@ describe("Login User Tests", () => {
         expect(mockedResp.status).toHaveBeenCalledWith(200)
         expect(mockedResp.json).toHaveBeenCalledWith({
             token: 'Token@123'
+        })
+    })
+
+    it("should return ISE", async () => {
+        jest.spyOn(User, 'findOne').mockImplementation(() => ({
+            select: jest.fn().mockRejectedValue(), // Returns the same mock object
+            // exec: jest.fn().mockResolvedValue(mockUserResp),
+        }));
+
+        const mockedReq = mockReq()
+        const mockedResp = mockResp()
+        await loginUser(mockedReq, mockedResp)
+
+        expect(mockedResp.status).toHaveBeenCalledWith(500)
+        expect(mockedResp.json).toHaveBeenCalledWith({
+            error: "Error while loggin in",
         })
     })
 })

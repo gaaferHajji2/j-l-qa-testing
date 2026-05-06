@@ -20,11 +20,7 @@ class SimpleEvent(HttpUser):
     @task(3)
     def task_01(self):
         response = self.client.get('/')
-        print(f"Task 1 response status code: {response.status_code}")
-        print(f"The response text of Task 1: {response.text}")
 
     @task
     def task_02(self):
         response = self.client.post('/')
-        print(f"Task 2 response status code: {response.status_code}")
-        print(f"The response text of Task 2: {response.text}")

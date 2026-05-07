@@ -12,6 +12,6 @@ class MyLoadTestShape(LoadTestShape):
             # User count rounded to nearest hundred.
             user_count = round(run_time, -2)
             print(f'The user count: {user_count} & spawn rate: {self.spawn_rate}')
-            return (user_count, self.spawn_rate)
+            return (user_count + 10, self.spawn_rate)
 
         return None

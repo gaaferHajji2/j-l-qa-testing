@@ -11,6 +11,7 @@ class MyLoadTestShape(LoadTestShape):
         if run_time < self.time_limit:
             # User count rounded to nearest hundred.
             user_count = round(run_time, -2)
+            print(f'The user count: {user_count} & spawn rate: {self.spawn_rate}')
             return (user_count, self.spawn_rate)
 
         return None

@@ -3,7 +3,7 @@ from simple_test_01 import UserA, UserB
 
 class StagesShapeWithCustomUsers(LoadTestShape):
     time_limit = 60 # 1-minutes
-    spawn_rate = 20
+    spawn_rate = 50
 
     stages = [
         {"duration": 10, "users": 10, "spawn_rate": 10, "user_classes": [UserA]},

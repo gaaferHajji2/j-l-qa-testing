@@ -9,18 +9,28 @@ class BookspiderSpider(scrapy.Spider):
         books = response.css('article.product_pod')
         for book in books:
             relative_url = response.css('h3 a::attr(href)').get()
-            yield{
-                'name': book.css('h3 a::text').get(),
-                'price': book.css('.product_price .price_color::text').get(),
-                'url': books.css('h3 a').attrib['href']
-            }
+            # yield{
+            #     'name': book.css('h3 a::text').get(),
+            #     'price': book.css('.product_price .price_color::text').get(),
+            #     'url': books.css('h3 a').attrib['href']
+            # }
 
-        if relative_url is not None:
-            if 'catalogue/' in relative_url:
-                book_url = 'https://books.toscrape.com/' + relative_url
+            if relative_url is not None:
+                self.logger.info(f"The relative url is: {relative_url}")
+                if 'catalogue/' in relative_url:
+                    book_url = 'https://books.toscrape.com/' + relative_url
+                else:
+                    book_url = 'https://books.toscrape.com/catalogue/' + relative_url
+                yield response.follow(book_url, callback=self.parse_book_page)
+        
+        next_page = response.css('li.next a ::attr(href)').get()
+        if next_page is not None:
+            self.logger.info(f"The next page is: {next_page}")
+            if 'catalogue/' in next_page:
+                book_url = 'https://books.toscrape.com/' + next_page
             else:
-                book_url = 'https://books.toscrape.com/catalogue/' + relative_url
-            yield response.follow(book_url, callback=self.parse_book_page)
+                book_url = 'https://books.toscrape.com/catalogue/' + next_page
+            yield response.follow(book_url, callback=self.parse)
 
     def parse_book_page(self, response):
         table_rows = response.css("table tr")

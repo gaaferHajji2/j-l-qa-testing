@@ -2,18 +2,7 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
-from typing import Optional
 import scrapy
-import re
-
-def price_serializer(value: str) -> Optional[float]:
-    if not value:
-        return None
-    numeric = re.sub(r'[^\d.]', '', value.strip())
-    try:
-        return float(numeric)
-    except ValueError:
-        return None
 
 class BookscraperItem(scrapy.Item):
     # define the fields for your item here like:

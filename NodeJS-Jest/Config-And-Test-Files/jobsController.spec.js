@@ -1,4 +1,5 @@
 import Job from "../models/jobs"
+import { getJobs } from "./jobsController"
 
 const mockedJobs = [
     {
@@ -81,7 +82,25 @@ afterEach(() => {
 describe("The Jobs Controller Test", () => {
     describe("Get All Jobs", () => {
         it("should return all jobs array", async () => {
-            
+            const mockSkip = jest.fn().mockReturnThis() // Returns 'this' to allow chaining
+            const mockLimit = jest.fn().mockReturnThis()
+
+            jest.spyOn(Job, 'find').mockReturnValue({
+                limit: mockLimit,
+                skip: mockSkip,
+            })
+
+            let jobs = [mockedJobs[0], mockedJobs[1]]
+
+            mockSkip.mockResolvedValue(jobs)
+
+            let mockedRequest = mockReq()
+            let mockedResponse = mockResp()
+
+            await getJobs(mockedRequest, mockedResponse)
+
+            expect(mockedResponse.status).toHaveBeenCalledWith(200)
+            expect(mockedResponse.json).toHaveBeenCalledWith({jobs})
         })
     })
 })

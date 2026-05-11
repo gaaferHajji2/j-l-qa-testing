@@ -77,6 +77,7 @@ const mockResp = () => {
 
 afterEach(() => {
     jest.restoreAllMocks()
+    jest.clearAllMocks()
 })
 
 describe("The Jobs Controller Test", () => {
@@ -102,5 +103,40 @@ describe("The Jobs Controller Test", () => {
             expect(mockedResponse.status).toHaveBeenCalledWith(200)
             expect(mockedResponse.json).toHaveBeenCalledWith({jobs})
         })
+
+        it("Get Job By Specific Keyword", async () => {
+            const keyword = { title: /dev/i };
+            const resPerPage = 10;
+            const skip = 0;
+            const mockSkip = jest.fn().mockReturnThis() // Returns 'this' to allow chaining
+            const mockLimit = jest.fn().mockReturnThis()
+
+            jest.spyOn(Job, 'find').mockReturnValue({
+                limit: mockLimit,
+                skip: mockSkip,
+            })
+
+            let jobs = [mockedJobs[0], mockedJobs[1]]
+
+            mockSkip.mockResolvedValue(jobs)
+
+            let mockedRequest = mockReq()
+            mockedRequest.query.keyword = keyword
+            mockedRequest.query.page     = 1
+            let mockedResponse = mockResp()
+
+            await getJobs(mockedRequest, mockedResponse)
+
+            expect(mockedResponse.status).toHaveBeenCalledWith(200)
+            expect(mockedResponse.json).toHaveBeenCalledWith({jobs})
+            expect(Job.find).toHaveBeenCalledWith({
+                title: {
+                $regex: mockedRequest.query.keyword,
+                $options: "i",
+                },
+            })
+        })
     })
+
+    
 })

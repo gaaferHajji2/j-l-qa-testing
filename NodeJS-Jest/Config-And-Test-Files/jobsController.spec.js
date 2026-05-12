@@ -1,5 +1,5 @@
 import Job from "../models/jobs"
-import { getJobs, newJob } from "./jobsController"
+import { getJob, getJobs, newJob } from "./jobsController"
 
 const mockedJobs = [
     {
@@ -163,5 +163,20 @@ describe("The Jobs Controller Test", () => {
                 error: "Please enter all values",
             })
         })
-    })    
+    })
+
+    describe("Get Job By Id", () => {
+        it("should return one job only", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
+
+            let mockedReq = mockReq()
+            mockedReq.params.id = '64a1b2c3d4e5f6a7b8c9d0e1'
+            let mockedRes = mockResp()
+
+            await getJob(mockedReq, mockedRes)
+
+            expect(mockedRes.status).toHaveBeenCalledWith(200)
+            expect(mockedRes.json).toHaveBeenCalledWith({ job: mockedJobs[0] })
+        })
+    })
 })

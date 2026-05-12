@@ -56,9 +56,9 @@ const mockReq = () => {
     return {
         body: {},
         // query: { keyword: 'Jafar Loka-01' },
-        query: { },
+        query: {},
         // params: { id: "64b2c3d4e5f6a7b8c9d0e1f3" },
-        params: { },
+        params: {},
         user: {
             id: "507f1f77bcf86cd799439011",
             name: "Jafar Loka",
@@ -101,7 +101,7 @@ describe("The Jobs Controller Test", () => {
             await getJobs(mockedRequest, mockedResponse)
 
             expect(mockedResponse.status).toHaveBeenCalledWith(200)
-            expect(mockedResponse.json).toHaveBeenCalledWith({jobs})
+            expect(mockedResponse.json).toHaveBeenCalledWith({ jobs })
         })
 
         it("Get Job By Specific Keyword", async () => {
@@ -122,17 +122,17 @@ describe("The Jobs Controller Test", () => {
 
             let mockedRequest = mockReq()
             mockedRequest.query.keyword = keyword
-            mockedRequest.query.page     = 1
+            mockedRequest.query.page = 1
             let mockedResponse = mockResp()
 
             await getJobs(mockedRequest, mockedResponse)
 
             expect(mockedResponse.status).toHaveBeenCalledWith(200)
-            expect(mockedResponse.json).toHaveBeenCalledWith({jobs})
+            expect(mockedResponse.json).toHaveBeenCalledWith({ jobs })
             expect(Job.find).toHaveBeenCalledWith({
                 title: {
-                $regex: mockedRequest.query.keyword,
-                $options: "i",
+                    $regex: mockedRequest.query.keyword,
+                    $options: "i",
                 },
             })
         })
@@ -148,7 +148,7 @@ describe("The Jobs Controller Test", () => {
             await newJob(mockedReq, mockedRes)
 
             expect(mockedRes.status).toHaveBeenCalledWith(200)
-            expect(mockedRes.json).toHaveBeenCalledWith({job: mockedJobs[0]})
+            expect(mockedRes.json).toHaveBeenCalledWith({ job: mockedJobs[0] })
         })
 
         it("should throw exception", async () => {
@@ -159,7 +159,7 @@ describe("The Jobs Controller Test", () => {
             await newJob(mockedReq, mockedRes)
 
             expect(mockedRes.status).toHaveBeenCalledWith(400)
-            expect(mockedRes.json).toHaveBeenCalledWith({ 
+            expect(mockedRes.json).toHaveBeenCalledWith({
                 error: "Please enter all values",
             })
         })
@@ -177,6 +177,20 @@ describe("The Jobs Controller Test", () => {
 
             expect(mockedRes.status).toHaveBeenCalledWith(200)
             expect(mockedRes.json).toHaveBeenCalledWith({ job: mockedJobs[0] })
+        })
+
+        it("should return no job found", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(null)
+
+            let mockedReq = mockReq()
+            let mockedRes = mockResp()
+
+            await getJob(mockedReq, mockedRes)
+
+            expect(mockedRes.status).toHaveBeenCalledWith(404)
+            expect(mockedRes.json).toHaveBeenCalledWith({
+                error: "Job not found",
+            })
         })
     })
 })

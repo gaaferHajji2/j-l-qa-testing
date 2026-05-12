@@ -1,5 +1,5 @@
 import Job from "../models/jobs"
-import { getJobs } from "./jobsController"
+import { getJobs, newJob } from "./jobsController"
 
 const mockedJobs = [
     {
@@ -138,5 +138,30 @@ describe("The Jobs Controller Test", () => {
         })
     })
 
-    
+    describe("Create A New Job", () => {
+        it("should create a new job", async () => {
+            jest.spyOn(Job, 'create').mockImplementationOnce(() => mockedJobs[0])
+
+            let mockedReq = mockReq()
+            let mockedRes = mockResp()
+
+            await newJob(mockedReq, mockedRes)
+
+            expect(mockedRes.status).toHaveBeenCalledWith(200)
+            expect(mockedRes.json).toHaveBeenCalledWith({job: mockedJobs[0]})
+        })
+
+        it("should throw exception", async () => {
+            jest.spyOn(Job, 'create').mockRejectedValue({ name: 'ValidationError' })
+
+            let mockedReq = mockReq()
+            let mockedRes = mockResp()
+            await newJob(mockedReq, mockedRes)
+
+            expect(mockedRes.status).toHaveBeenCalledWith(400)
+            expect(mockedRes.json).toHaveBeenCalledWith({ 
+                error: "Please enter all values",
+            })
+        })
+    })    
 })

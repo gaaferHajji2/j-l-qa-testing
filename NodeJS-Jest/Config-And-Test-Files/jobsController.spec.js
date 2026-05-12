@@ -192,5 +192,19 @@ describe("The Jobs Controller Test", () => {
                 error: "Job not found",
             })
         })
+
+        it("should throw exception", async () => {
+            jest.spyOn(Job, 'findById').mockRejectedValueOnce({ name: 'CastError' })
+
+            let mockedReq = mockReq()
+            let mockedRes = mockResp()
+
+            await getJob(mockedReq, mockedRes)
+
+            expect(mockedRes.status).toHaveBeenCalledWith(400)
+            expect(mockedRes.json).toHaveBeenCalledWith({
+                error: "Please enter correct id",
+            })
+        })
     })
 })

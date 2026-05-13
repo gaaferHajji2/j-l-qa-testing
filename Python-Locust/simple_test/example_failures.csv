@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+GET,/world,HTTPError('404 Client Error: Not Found for url: /world'),1671

@@ -1,9 +1,10 @@
-from locust import task, FastHttpUser, between
+from locust import task, FastHttpUser, between, HttpUser
 
 class Test01(FastHttpUser):
     host= 'https://locust.io'
-    wait_time = between(0.1, 1)
+    # wait_time = between(1, 2)
 
     @task
     def check_request(self):
-        self.client.get('/')
+        # We must define the response variable
+        response = self.client.get('/')

@@ -6,11 +6,16 @@ class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
     allowed_domains = ["books.toscrape.com"]
     start_urls = ["https://books.toscrape.com"]
+    custom_settings = {
+        'LOG_FILE': 'result.log',
+        'LOG_LEVEL': 'INFO'
+    }
 
     def parse(self, response):
         books = response.css('article.product_pod')
+        self.logger.info(f"The number of books are: {len(books)}")
         for book in books:
-            relative_url = response.css('h3 a::attr(href)').get()
+            relative_url = response.css('h3 a ::attr(href)').get()
             if relative_url is not None:
                 self.logger.info(f"The relative url is: {relative_url}")
                 if 'catalogue/' in relative_url:
@@ -19,7 +24,7 @@ class BookspiderSpider(scrapy.Spider):
                     book_url = 'https://books.toscrape.com/catalogue/' + relative_url
                 yield response.follow(book_url, callback=self.parse_book_page)
         
-        next_page = response.css('li.next a ::attr(href)').get()
+        next_page = response.css('li.next a::attr(href)').get()
         if next_page is not None:
             self.logger.info(f"The next page is: {next_page}")
             if 'catalogue/' in next_page:

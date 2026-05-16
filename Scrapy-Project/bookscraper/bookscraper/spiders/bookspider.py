@@ -11,12 +11,6 @@ class BookspiderSpider(scrapy.Spider):
         books = response.css('article.product_pod')
         for book in books:
             relative_url = response.css('h3 a::attr(href)').get()
-            # yield{
-            #     'name': book.css('h3 a::text').get(),
-            #     'price': book.css('.product_price .price_color::text').get(),
-            #     'url': books.css('h3 a').attrib['href']
-            # }
-
             if relative_url is not None:
                 self.logger.info(f"The relative url is: {relative_url}")
                 if 'catalogue/' in relative_url:

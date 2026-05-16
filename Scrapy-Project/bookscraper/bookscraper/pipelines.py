@@ -74,7 +74,7 @@ class BookscraperPipeline:
                 adapter[field_name] = convert_stars_to_int(stars_num_string)
             else:
                 value = adapter.get(field_name)
-                adapter[field_name] = value.strip()
-            
+                adapter[field_name] = value.strip() if value is not None else ''
+        self.logger.info(f"The Item is: {item}")
 
         return item

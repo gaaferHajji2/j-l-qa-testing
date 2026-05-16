@@ -15,14 +15,14 @@ class BookspiderSpider(scrapy.Spider):
         books = response.css('article.product_pod')
         self.logger.info(f"The number of books are: {len(books)}")
         for book in books:
-            relative_url = response.css('h3 a ::attr(href)').get()
+            relative_url = book.css('h3 a::attr(href)').get()
             if relative_url is not None:
                 self.logger.info(f"The relative url is: {relative_url}")
                 if 'catalogue/' in relative_url:
-                    book_url = 'https://books.toscrape.com/' + relative_url
+                    relative_book_url = 'https://books.toscrape.com/' + relative_url
                 else:
-                    book_url = 'https://books.toscrape.com/catalogue/' + relative_url
-                yield response.follow(book_url, callback=self.parse_book_page)
+                    relative_book_url = 'https://books.toscrape.com/catalogue/' + relative_url
+                yield response.follow(relative_book_url, callback=self.parse_book_page)
         
         next_page = response.css('li.next a::attr(href)').get()
         if next_page is not None:

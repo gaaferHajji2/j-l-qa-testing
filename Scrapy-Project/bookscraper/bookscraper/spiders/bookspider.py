@@ -48,4 +48,5 @@ class BookspiderSpider(scrapy.Spider):
         item['category'] = response.xpath("//ul[@class='breadcrumb']/li[@class='active']/preceding-sibling::li[1]/a/text()").get()
         item['description'] = response.xpath("//div[@id='product_description']/following-sibling::p/text()").get()
         item['price'] = response.css('p.price_color::text').get()
+        self.logger.info(f"The item is: {item}")
         yield item

@@ -35,6 +35,14 @@ class BookscraperPipeline:
             elif field_name in types_name:
                 value = adapter.get(field_name)
                 adapter[field_name] = value.lower()
+            elif field_name.lower() == 'availability':
+                availability_string = adapter.get('availability')
+                split_string_array = availability_string.split('(')
+                if len(split_string_array) < 2:
+                    adapter[field_name] = 0
+                else:
+                    availability_array = split_string_array[1].split(' ')
+                    adapter[field_name] = int(availability_array[0])
             elif field_name != 'description':
                 value = adapter.get(field_name)
                 adapter[field_name] = value.strip()

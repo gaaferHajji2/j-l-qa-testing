@@ -75,6 +75,4 @@ class BookscraperPipeline:
             else:
                 value = adapter.get(field_name)
                 adapter[field_name] = value.strip() if value is not None else ''
-        self.logger.info(f"The Item is: {item}")
-
         return item

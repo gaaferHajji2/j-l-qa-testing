@@ -197,10 +197,12 @@ describe("The Jobs Controller Test", () => {
             jest.spyOn(Job, 'findById').mockRejectedValueOnce({ name: 'CastError' })
 
             let mockedReq = mockReq()
+            mockedReq.params = { id: "Jafar-Loka-01" }
             let mockedRes = mockResp()
 
             await getJob(mockedReq, mockedRes)
-
+            
+            expect(Job.findById).toHaveBeenCalledWith(mockedReq.params.id)
             expect(mockedRes.status).toHaveBeenCalledWith(400)
             expect(mockedRes.json).toHaveBeenCalledWith({
                 error: "Please enter correct id",

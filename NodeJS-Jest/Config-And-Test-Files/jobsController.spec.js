@@ -201,7 +201,7 @@ describe("The Jobs Controller Test", () => {
             let mockedRes = mockResp()
 
             await getJob(mockedReq, mockedRes)
-            
+
             expect(Job.findById).toHaveBeenCalledWith(mockedReq.params.id)
             expect(mockedRes.status).toHaveBeenCalledWith(400)
             expect(mockedRes.json).toHaveBeenCalledWith({
@@ -217,12 +217,27 @@ describe("The Jobs Controller Test", () => {
 
             let mockedReq = mockReq()
             let mockedResp = mockResp()
-            
+
             await updateJob(mockedReq, mockedResp)
 
             expect(mockedResp.status).toHaveBeenCalledWith(200)
-            expect(mockedResp.json).toHaveBeenCalledWith({ job: mockedJobs[0]})
+            expect(mockedResp.json).toHaveBeenCalledWith({ job: mockedJobs[0] })
 
+        })
+
+        it("should return job not found", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(null)
+            // jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
+
+            let mockedReq = mockReq()
+            let mockedResp = mockResp()
+
+            await updateJob(mockedReq, mockedResp)
+
+            expect(mockedResp.status).toHaveBeenCalledWith(404)
+            expect(mockedResp.json).toHaveBeenCalledWith({
+                error: "Job not found",
+            })
         })
     })
 })

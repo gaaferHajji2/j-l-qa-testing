@@ -216,13 +216,14 @@ describe("The Jobs Controller Test", () => {
             jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
 
             let mockedReq = mockReq()
+            mockedReq.params = { id: "64a1b2c3d4e5f6a7b8c9d0e1"}
+            mockedReq.body = mockedJobs[0]
             let mockedResp = mockResp()
 
             await updateJob(mockedReq, mockedResp)
-
+            expect(Job.findByIdAndUpdate).toHaveBeenLastCalledWith(mockedReq.params.id, mockedReq.body, { new: true })
             expect(mockedResp.status).toHaveBeenCalledWith(200)
             expect(mockedResp.json).toHaveBeenCalledWith({ job: mockedJobs[0] })
-
         })
 
         it("should return job not found", async () => {

@@ -239,5 +239,21 @@ describe("The Jobs Controller Test", () => {
                 error: "Job not found",
             })
         })
+
+        it("should return not allowed to update job", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
+            // jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
+
+            let mockedReq = mockReq()
+            mockedReq.user.id = "1"
+            let mockedResp = mockResp()
+
+            await updateJob(mockedReq, mockedResp)
+
+            expect(mockedResp.status).toHaveBeenCalledWith(401)
+            expect(mockedResp.json).toHaveBeenCalledWith({
+                error: "You are not allowed to update this job",
+            })
+        })
     })
 })

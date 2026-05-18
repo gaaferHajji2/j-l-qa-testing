@@ -1,5 +1,5 @@
 import Job from "../models/jobs"
-import { getJob, getJobs, newJob } from "./jobsController"
+import { getJob, getJobs, newJob, updateJob } from "./jobsController"
 
 const mockedJobs = [
     {
@@ -60,7 +60,7 @@ const mockReq = () => {
         // params: { id: "64b2c3d4e5f6a7b8c9d0e1f3" },
         params: {},
         user: {
-            id: "507f1f77bcf86cd799439011",
+            id: "64a1b2c3d4e5f6a7b8c9d0e1",
             name: "Jafar Loka",
             email: "jloka@jloka.com",
             password: "Hash@Test@123"
@@ -207,6 +207,22 @@ describe("The Jobs Controller Test", () => {
             expect(mockedRes.json).toHaveBeenCalledWith({
                 error: "Please enter correct id",
             })
+        })
+    })
+
+    describe("Update Job By Id", () => {
+        it("should update the job successfully", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
+            jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
+
+            let mockedReq = mockReq()
+            let mockedResp = mockResp()
+            
+            await updateJob(mockedReq, mockedResp)
+
+            expect(mockedResp.status).toHaveBeenCalledWith(200)
+            expect(mockedResp.json).toHaveBeenCalledWith({ job: mockedJobs[0]})
+
         })
     })
 })

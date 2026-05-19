@@ -216,7 +216,7 @@ describe("The Jobs Controller Test", () => {
             jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
 
             let mockedReq = mockReq()
-            mockedReq.params = { id: "64a1b2c3d4e5f6a7b8c9d0e1"}
+            mockedReq.params = { id: "64a1b2c3d4e5f6a7b8c9d0e1" }
             mockedReq.body = mockedJobs[0]
             let mockedResp = mockResp()
 
@@ -259,7 +259,7 @@ describe("The Jobs Controller Test", () => {
     })
 
     describe("Delete Job By Id", () => {
-        it("should delete a product", async() => {
+        it("should delete a product", async () => {
             jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
             jest.spyOn(Job, 'findByIdAndDelete').mockResolvedValueOnce(mockedJobs[0])
 
@@ -274,6 +274,21 @@ describe("The Jobs Controller Test", () => {
             expect(mockedResp.status).toHaveBeenCalledWith(200)
             expect(mockedResp.json).toHaveBeenCalledWith({
                 job: mockedJobs[0]
+            })
+        })
+
+        it("should return job not found", async () => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(null)
+
+            let mockedReq = mockReq()
+            mockedReq.params = { id: "64a1b2c3d4e5f6a7b8c9d0e1" }
+            let mockedResp = mockResp()
+
+            await deleteJob(mockedReq, mockedResp)
+
+            expect(mockedResp.status).toHaveBeenCalledWith(404)
+            expect(mockedResp.json).toHaveBeenCalledWith({
+                error: "Job not found",
             })
         })
     })

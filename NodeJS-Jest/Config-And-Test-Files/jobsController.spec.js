@@ -1,5 +1,5 @@
 import Job from "../models/jobs"
-import { getJob, getJobs, newJob, updateJob } from "./jobsController"
+import { deleteJob, getJob, getJobs, newJob, updateJob } from "./jobsController"
 
 const mockedJobs = [
     {
@@ -254,6 +254,26 @@ describe("The Jobs Controller Test", () => {
             expect(mockedResp.status).toHaveBeenCalledWith(401)
             expect(mockedResp.json).toHaveBeenCalledWith({
                 error: "You are not allowed to update this job",
+            })
+        })
+    })
+
+    describe("Delete Job By Id", () => {
+        it("should delete a product", async() => {
+            jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
+            jest.spyOn(Job, 'findByIdAndDelete').mockResolvedValueOnce(mockedJobs[0])
+
+            let mockedReq = mockReq()
+            mockedReq.params = { id: "64a1b2c3d4e5f6a7b8c9d0e1" }
+            let mockedResp = mockResp()
+
+            await deleteJob(mockedReq, mockedResp)
+
+            expect(Job.findById).toHaveBeenCalledWith(mockedReq.params.id)
+            expect(Job.findByIdAndDelete).toHaveBeenCalledWith(mockedReq.params.id)
+            expect(mockedResp.status).toHaveBeenCalledWith(200)
+            expect(mockedResp.json).toHaveBeenCalledWith({
+                job: mockedJobs[0]
             })
         })
     })

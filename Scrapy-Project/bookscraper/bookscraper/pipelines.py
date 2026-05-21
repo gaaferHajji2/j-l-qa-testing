@@ -109,4 +109,12 @@ class SaveToMySQLPipeline:
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 """)
     def process_item(self, item, spider):
-        pass
+        self.cur.execute("""
+            INSERT INTO books (url, title, product_type, price_excl_tax, price_incl_tax, tax, availability, num_reviews, stars, category, description, price)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE 
+                title = VALUES(title),
+                price = VALUES(price),
+                availability = VALUES(availability),
+                updated_at = CURRENT_TIMESTAMP;
+""")

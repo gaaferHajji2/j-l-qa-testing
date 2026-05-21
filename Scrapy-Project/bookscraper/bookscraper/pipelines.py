@@ -76,3 +76,37 @@ class BookscraperPipeline:
                 value = adapter.get(field_name)
                 adapter[field_name] = value.strip() if value is not None else ''
         return item
+
+import mysql.connector
+
+class SaveToMySQLPipeline:
+    def __init__(self):
+        self.conn = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = 123,
+            database = 'scrapebooks'
+        )
+
+        self.cur = self.conn.cursor()
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS books (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                url VARCHAR(1024) UNIQUE NOT NULL,
+                title VARCHAR(255),
+                product_type VARCHAR(100),
+                price_excl_tax DECIMAL(10, 2),
+                price_incl_tax DECIMAL(10, 2),
+                tax DECIMAL(10, 2),
+                availability VARCHAR(100),
+                num_reviews INT,
+                stars VARCHAR(50),
+                category VARCHAR(100),
+                description TEXT,
+                price DECIMAL(10, 2),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+""")
+    def process_item(self, item, spider):
+        pass

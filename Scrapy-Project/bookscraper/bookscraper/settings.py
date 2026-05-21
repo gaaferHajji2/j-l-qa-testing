@@ -15,7 +15,7 @@ NEWSPIDER_MODULE = "bookscraper.spiders"
 ADDONS = {}
 
 FEEDS = {
-    "booksdata.json": { 'format': 'json' }
+    "booksdata.json": { 'format': 'json', 'overwrite': True }
 }
 
 

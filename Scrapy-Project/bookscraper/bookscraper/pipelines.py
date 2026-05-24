@@ -110,11 +110,35 @@ class SaveToMySQLPipeline:
 """)
     def process_item(self, item, spider):
         self.cur.execute("""
-            INSERT INTO books (url, title, product_type, price_excl_tax, price_incl_tax, tax, availability, num_reviews, stars, category, description, price)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO books (
+                url, title, product_type, price_excl_tax, price_incl_tax, tax, 
+                availability, num_reviews, stars, category, description, price
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE 
                 title = VALUES(title),
                 price = VALUES(price),
                 availability = VALUES(availability),
                 updated_at = CURRENT_TIMESTAMP;
-""")
+        """, (
+            item.get('url'),
+            item.get('title'),
+            item.get('product_type'),
+            item.get('price_excl_tax'),
+            item.get('price_incl_tax'),
+            item.get('tax'),
+            item.get('availability'),
+            item.get('num_reviews'),
+            item.get('stars'),
+            item.get('category'),
+            item.get('description'),
+            item.get('price')
+        ))
+        
+        # Required to actually persist the data in MySQL
+        self.conn.commit()
+        
+        # Required by Scrapy's pipeline contract
+        return item
+    def close_spider(self, spider):
+        self.cur.close()
+        self.conn.close()

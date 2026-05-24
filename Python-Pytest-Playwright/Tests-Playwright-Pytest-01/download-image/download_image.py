@@ -9,3 +9,5 @@ with sync_playwright() as playwright:
         download_btn.click()
     download_file = download_info.value
     download_file.save_as("./pizza.jpg")
+    page.close()
+    browser.close()

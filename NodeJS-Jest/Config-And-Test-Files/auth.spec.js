@@ -17,13 +17,17 @@ let mockResponse = () => {
     }
 }
 
-let mockNext = jest.fn()
+afterEach(() => {
+    jest.restoreAllMocks()
+    jest.clearAllMocks()
+})
 
 describe("Test The Auth Module", () => {
     it("should return missing token data", async () => {
         let mockedRequest = mockRequest()
         mockedRequest.headers.authorization = ""
         let mockedResponse = mockResponse()
+        let mockNext = jest.fn()
 
         await isAuthenticatedUser(mockedRequest, mockedResponse, mockNext)
 
@@ -36,6 +40,7 @@ describe("Test The Auth Module", () => {
         let mockedRequest = mockRequest()
         mockedRequest.headers.authorization = "Bearer"
         let mockedResponse = mockResponse()
+        let mockNext = jest.fn()
 
         await isAuthenticatedUser(mockedRequest, mockedResponse, mockNext)
 
@@ -56,10 +61,29 @@ describe("Test The Auth Module", () => {
         })
         let mockedRequest = mockRequest()
         let mockedResponse = mockResponse()
+        let mockNext = jest.fn()
 
         await isAuthenticatedUser(mockedRequest, mockedResponse, mockNext)
 
         expect(mockedRequest).toHaveProperty('user')
         expect(mockNext).toHaveBeenCalledTimes(1)
+    })
+
+    it("should return 500", async () => {
+        jest.spyOn(jwt, 'verify').mockImplementation(() => {
+            throw new Error("Not Implemented")
+        })
+
+        let mockedRequest = mockRequest()
+        let mockedResponse = mockResponse()
+        let mockNext = jest.fn()
+
+        await isAuthenticatedUser(mockedRequest, mockedResponse, mockNext)
+
+        expect(mockedResponse.status).toHaveBeenCalledWith(500)
+        expect(mockedResponse.json).toHaveBeenCalledWith({
+            error: "User authentication failed",
+        })
+        expect(mockNext).not.toHaveBeenCalled()
     })
 })

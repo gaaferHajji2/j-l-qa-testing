@@ -35,4 +35,22 @@ describe("Test The Users Model", () => {
             expect(err.errors.password).toBeDefined()
         }
     })
+
+    it("should throw validation error", async () => {
+        try{
+            let user = new User()
+
+            // Here we don't call any other 3rd parties methods
+            jest.spyOn(user, 'validate').mockRejectedValueOnce({
+                errors: {
+                    password: 'Your password must be at least 8 characters long'
+                }
+            })
+
+            await user.validate()
+        } catch (err) {
+            expect(err.errors.password).toBeDefined()
+            expect(err.errors.password).toBe('Your password must be at least 8 characters long')
+        }
+    })
 })

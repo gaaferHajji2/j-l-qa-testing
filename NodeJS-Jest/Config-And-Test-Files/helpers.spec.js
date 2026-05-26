@@ -14,6 +14,7 @@ describe("Test Helpers", () => {
 
     afterEach(() => {
         process.env = ORIGINAL_ENV
+        jest.resetAllMocks()
     });
 
     it("Test JWT Token", async () => {

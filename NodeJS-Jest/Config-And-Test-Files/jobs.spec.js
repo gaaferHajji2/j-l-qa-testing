@@ -104,11 +104,10 @@ describe('Job Model Unit Tests (Validation Logic)', () => {
   test('should fail validation if industry is missing', async () => {
     const data = getValidData();
     delete data.industry;
-    console.log("The data after delete industry is: ", data)
     const job = new Job(data);
     
     try { 
-      await job.validateSync();
+      await job.validate();
     } catch (error) {
       expect(error).toBeDefined();
       expect(error.errors['industry.0'].message).toBe("Please enter industry for this job.");
@@ -124,7 +123,6 @@ describe('Job Model Unit Tests (Validation Logic)', () => {
       await job.validate();
     } catch (error) {
       expect(error).toBeDefined();
-      console.log("The errors is: ", error.errors)
       expect(error.errors['industry.0'].message).toBe("Please select correct options for industry.");
     }
   });

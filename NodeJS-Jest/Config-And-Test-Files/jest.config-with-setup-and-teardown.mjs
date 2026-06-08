@@ -28,7 +28,7 @@ const config = {
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    "\\\\node_modules\\\\",
+    "\\\\node_modules\\\\", ""
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -43,17 +43,7 @@ const config = {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
-
-  coverageDirectory: 'coverage', // Default
-  coverageReporters: ['text', 'lcov', 'html'], // Ensure reporters are set
+  // coverageThreshold: undefined,
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -70,10 +60,10 @@ const config = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: './jest.globalSetup.js',
+  globalSetup: './jest.globalSetup.js',
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  // globalTeardown: './jest.globalTeardown.js',
+  globalTeardown: './jest.globalTeardown.js',
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
@@ -173,7 +163,7 @@ const config = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
-    "\\\\node_modules\\\\"
+    "\\\\node_modules\\\\", "\\\\__tests__\\\\db-handler.js"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

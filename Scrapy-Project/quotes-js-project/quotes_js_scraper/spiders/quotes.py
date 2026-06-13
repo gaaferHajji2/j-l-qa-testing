@@ -3,14 +3,14 @@ from quotes_js_scraper.items import QuoteItem
 from scrapy_selenium import SeleniumRequest
 
 class QuotesSpider(scrapy.Spider):
-  	name = 'quotes'
-	
+	name = 'quotes'
+
 	def start_requests(self):
 		url = 'https://quotes.toscrape.com/js/'
-		yield SeleniumRequest(url = url, callback = self.parse)
+		yield SeleniumRequest(url=url, callback=self.parse)
 
 	def parse(self, response):
-    	quote_item = QuoteItem()
+		quote_item = QuoteItem()
 		for quote in response.css('div.quote'):
 			quote_item['text'] = quote.css('span.text::text').get()
 			quote_item['author'] = quote.css('small.author::text').get()

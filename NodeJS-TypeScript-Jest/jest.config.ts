@@ -8,6 +8,8 @@ const config: Config = {
   // Specify the test environment (use 'jsdom' if you are building front-end apps like React)
   testEnvironment: 'node',
 
+  verbose: true,
+
   // The directory where Jest should look for your test files
   roots: ['<rootDir>/src'],
 

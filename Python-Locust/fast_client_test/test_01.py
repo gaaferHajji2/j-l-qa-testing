@@ -1,4 +1,4 @@
-from locust import task, FastHttpUser, between, HttpUser
+from locust import task, FastHttpUser
 
 class Test01(FastHttpUser):
     host= 'https://locust.io'

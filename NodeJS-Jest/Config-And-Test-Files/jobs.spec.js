@@ -2,14 +2,6 @@
 import Job from './jobs'
 import mongoose from 'mongoose'
 
-// 1. Mock mongoose before requiring the model
-const mockValidateSync = jest.fn();
-const mockSave = jest.fn();
-const mockModelInstance = {
-  validateSync: mockValidateSync,
-  save: mockSave,
-};
-
 describe('Job Model Unit Tests (Validation Logic)', () => {
 
   // Helper to get valid data

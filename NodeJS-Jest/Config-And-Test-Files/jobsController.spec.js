@@ -226,7 +226,6 @@ describe("The Jobs Controller Test", () => {
 
         it("should return job not found", async () => {
             jest.spyOn(Job, 'findById').mockResolvedValueOnce(null)
-            // jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
 
             let mockedReq = mockReq()
             let mockedResp = mockResp()

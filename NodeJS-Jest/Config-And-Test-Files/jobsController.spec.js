@@ -240,7 +240,6 @@ describe("The Jobs Controller Test", () => {
 
         it("should return not allowed to update job", async () => {
             jest.spyOn(Job, 'findById').mockResolvedValueOnce(mockedJobs[0])
-            // jest.spyOn(Job, 'findByIdAndUpdate').mockResolvedValueOnce(mockedJobs[0])
 
             let mockedReq = mockReq()
             mockedReq.user.id = "1"

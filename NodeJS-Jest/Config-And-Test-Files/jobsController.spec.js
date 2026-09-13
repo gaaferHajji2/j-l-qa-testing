@@ -106,8 +106,6 @@ describe("The Jobs Controller Test", () => {
 
         it("Get Job By Specific Keyword", async () => {
             const keyword = { title: /dev/i };
-            const resPerPage = 10;
-            const skip = 0;
             const mockSkip = jest.fn().mockReturnThis() // Returns 'this' to allow chaining
             const mockLimit = jest.fn().mockReturnThis()
 

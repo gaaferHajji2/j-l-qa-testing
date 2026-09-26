@@ -4,7 +4,6 @@ import time
 
 @pytest.fixture(autouse=True)
 def trace_test(context: BrowserContext):
-    
     # enable saving snapshots of our test for every action
     context.tracing.start(
         name="hrm_trace", 

@@ -7,6 +7,11 @@ from selenium.webdriver.support import expected_conditions as EC
 class QuotesSpider(scrapy.Spider):
 	name = 'quotes'
 
+	custom_settings = {
+		'LOG_FILE': 'result.log',
+		'LOG_LEVEL': 'INFO'
+	}
+
 	def start_requests(self):
 		url = 'https://quotes.toscrape.com/js/'
 		yield SeleniumRequest(

@@ -61,7 +61,7 @@ class BookspiderSpider(scrapy.Spider):
             yield response.follow(
                 book_url, 
                 callback=self.parse,
-                                    headers = { "User-Agent": self.USER_AGENTS[random.randint(0, len(self.USER_AGENTS) - 1)]}
+                headers = { "User-Agent": self.USER_AGENTS[random.randint(0, len(self.USER_AGENTS) - 1)]}
             )
 
     def parse_book_page(self, response):

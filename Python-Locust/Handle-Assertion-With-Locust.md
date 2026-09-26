@@ -1,5 +1,3 @@
-This is a **critical concept** to understand about Locust. Here's the short answer:
-
 ## ⚠️ **Locust Does NOT Automatically Handle Assertions Like Traditional Test Frameworks**
 
 When you use assertion statements (like `assert`, `pytest` assertions, or `unittest` assertions) in Locust tasks, here's what happens:

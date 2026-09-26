@@ -189,38 +189,5 @@ class SequentialUser(HttpUser):
 5. **Use external stores for cross-user data**: Redis is excellent for this.
 6. **Keep it simple**: Don't over-engineer; start with instance attributes.
 
-## Example: Complete Realistic Flow
-
-```python
-from locust import HttpUser, task, between
-
-class EcommerceUser(HttpUser):
-    wait_time = between(2, 5)
-    
-    def on_start(self):
-        # 1. Login and get token
-        res = self.client.post("/login", json={"user": "shopper", "pass": "123"})
-        self.token = res.json().get("token")
-        
-        # 2. Get a list of products
-        res = self.client.get("/products", headers={"Auth": self.token})
-        self.product_ids = [p['id'] for p in res.json().get('products', [])]
-    
-    @task(3)
-    def browse_products(self):
-        if self.product_ids:
-            pid = self.product_ids[0]
-            self.client.get(f"/products/{pid}", headers={"Auth": self.token})
-    
-    @task(1)
-    def add_to_cart(self):
-        if self.product_ids:
-            pid = self.product_ids[0]
-            self.client.post("/cart/add", json={"product_id": pid}, headers={"Auth": self.token})
-    
-    @task(1)
-    def checkout(self):
-        self.client.post("/checkout", headers={"Auth": self.token})
-```
 
 This approach ensures that each user has their own session data, mimicking real-world behavior accurately.

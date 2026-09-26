@@ -195,7 +195,7 @@ class WeightedUser(HttpUser):
         self.client.get("/common-page")
 ```
 
-### Sequential Tasks with `@tag`
+### Tasks with `@tag`
 ```python
 from locust import HttpUser, task, tag
 

@@ -12,6 +12,11 @@ BOT_NAME = 'quotes_js_scraper'
 SPIDER_MODULES = ['quotes_js_scraper.spiders']
 NEWSPIDER_MODULE = 'quotes_js_scraper.spiders'
 
+FEEDS = {
+    "quotesdata.json": { 'format': 'json', 'overwrite': True }
+}
+
+
 from shutil import which
   
 SELENIUM_DRIVER_NAME = 'chrome'

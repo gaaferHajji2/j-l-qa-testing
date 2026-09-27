@@ -1,4 +1,4 @@
-To use environment variables set on your host machine within your Docker Compose services, you can use **Variable Interpolation**. Docker Comose looks for a `.env` file in the same directory as your `docker-compose.yml` or uses the variables currently exported in your shell.
+To use environment variables set on your host machine within your Docker Compose services, you can use **Variable Interpolation**. Docker Compose looks for a `.env` file in the same directory as your `docker-compose.yml` or uses the variables currently exported in your shell.
 
 Here are the three main ways to do this:
 

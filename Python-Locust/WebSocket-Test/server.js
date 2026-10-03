@@ -69,8 +69,6 @@ wss.on('connection', (ws, req) => {
   }));
 });
 
-wss.on('close', () => clearInterval(healthCheck));
-
 // --- Graceful Shutdown ---
 process.on('SIGINT', () => {
   console.log('\n🛑 Shutting down gracefully...');

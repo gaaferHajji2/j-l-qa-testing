@@ -15,7 +15,7 @@ describe("Utils test suite", () => {
         expect(actual.length).toEqual(testData.length)
         expect(actual.characters).toBeInstanceOf(Array)
         expect(actual.characters).toEqual([...testData])
-        expect(actual.characters).toContainEqual('J')
+        expect(actual.characters).toContainEqual<string>('J')
         expect(actual.extraInfo).toMatchObject({})
     })
 })

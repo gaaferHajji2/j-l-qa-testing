@@ -1,7 +1,7 @@
 from playwright.sync_api import Page
 
 def test_orange_hrm_title(page: Page):
-    page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+    page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login", timeout=120000)
     username = page.get_by_placeholder("Username")
     username.fill("Admin")
     password = page.get_by_placeholder("Password")

@@ -5,6 +5,16 @@ describe("Utils test suite", () => {
         expect(toUpperCase('jloka')).toBe("JLOKA")
     })
 
+    describe("toUpperCase tests", () => {
+        it.each([
+            {data: 'Jafar-Loka-01', expected: 'JAFAR-LOKA-01'},
+            {data: 'j-l-01', expected: 'J-L-01'},
+            {data: 'Jafar-Test-01', expected: 'JAFAR-TEST-01'},
+        ])("Test parametrize with $data expected $expected", ({ data, expected }) => {
+            expect(toUpperCase(data)).toBe(expected)
+        })
+    })
+
     it("should test stringInfo function", () => {
         const testData = "Jafar-Loka"
         const actual = getStringInfo(testData)

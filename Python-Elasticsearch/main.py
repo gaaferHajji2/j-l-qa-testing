@@ -10,18 +10,18 @@ password = os.getenv('password')
 api_key_id = os.getenv('api_key_id')
 api_key_secret = os.getenv('api_key_secret')
 # Basic Elasticsearch connection
-# es = Elasticsearch(
-#     hosts=['https://localhost:9200'], 
-#     basic_auth=(elastic_user, password),
-#     verify_certs=False,
-#     ssl_show_warn=False
-# )
+es = Elasticsearch(
+    hosts=['https://localhost:9200'], 
+    basic_auth=(elastic_user, password),
+    verify_certs=False,
+    ssl_show_warn=False
+)
 
-# try:
-#     cluster_info = es.info()
-#     print(f"Cluster Info: {cluster_info}")
-# except Exception as e:
-#     print(f"Connection Failed: {e}")
+try:
+    cluster_info = es.info()
+    print(f"Cluster Info: {cluster_info}")
+except Exception as e:
+    print(f"Connection Failed: {e}")
 
 # # Get The API Key For Connection
 # api_key_response = es.security.create_api_key(
@@ -48,15 +48,39 @@ api_key_secret = os.getenv('api_key_secret')
 # print(f"The API key ID: {api_key_id}")
 # print(f"The API Key Secret: {api_key_secret}")
 
-es = Elasticsearch(
-    hosts=['https://localhost:9200'],
-    api_key=(api_key_id, api_key_secret),
-    verify_certs=False,
-    ssl_show_warn=False
-)
+# es = Elasticsearch(
+#     hosts=['https://localhost:9200'],
+#     api_key=(api_key_id, api_key_secret),
+#     verify_certs=False,
+#     ssl_show_warn=False
+# )
 
-try:
-    cluster_info = es.info()
-    print(f"Cluster Info: {cluster_info}")
-except Exception as e:
-    print(f"Connection Failed: {e}")
+# try:
+#     cluster_info = es.info()
+#     health = es.cluster.health()
+#     print(f"Cluster info: {cluster_info}")
+#     print(f"The health is: {health}")
+# except Exception as e:
+#     print(f"Connection Failed: {e}")
+
+# Create an index with custom settings
+index_settings = {
+    'settings': {
+        'number_of_shards': 3,
+        'number_of_replicas': 1,
+        'refresh_interval': '30s',
+        'analysis': {
+            'analyzer': {
+                'custom_analyzer': {
+                    'type': 'custom',
+                    'tokenizer': 'standard',
+                    'filter': ['lowercase', 'stop']
+                }
+            }
+        }
+    }
+}
+
+es.indices.create(index='articles', body=index_settings)
+
+es.close()

@@ -83,4 +83,14 @@ except Exception as e:
 
 # es.indices.create(index='articles', body=index_settings)
 
+# Update index settings
+# update_settings = {
+#     'index': {
+#         'refresh_interval': '60s',
+#         'number_of_replicas': 2
+#     }
+# }
+
+# es.indices.put_settings(index='articles', body=update_settings)
+
 es.close()

@@ -198,5 +198,38 @@ print(f"Found {response['hits']['total']['value']} documents")
 for hit in response['hits']['hits']:
     print(f"Score: {hit['_score']}, Title: {hit['_source']['title']}, Content: {hit['_source']['content']}")
 
+complex_query = {
+    'query': {
+        'bool': {
+            'must': [
+                {'match': {'content': 'Article'}}
+            ],
+            'filter': [
+                {'term': {'tags': 'indexing'}},
+                {'range': {'rating': {'gte': 4.0}}}
+            ],
+            'should': [
+                {'match': {'title': '11'}}
+            ]
+        }
+    },
+    'sort': [
+        {'publish_date': {'order': 'desc'}},
+        {'rating': {'order': 'desc'}}
+    ],
+    'highlight': {
+        'fields': {
+            'content': {},
+            'title': {}
+        }
+    }
+}
 
+response = es.search(index='articles', body=complex_query)
+print(f"Complex Query - Found {response['hits']['total']['value']} documents")
+for hit in response['hits']['hits']:
+    print(f"The hit is: {hit}")
+    print(f"Score: {hit['_score']}, Title: {hit['_source']['title']}, Content: {hit['_source']['content']}")
+    print("\t\t\t", "=" * 20)
+    
 es.close()

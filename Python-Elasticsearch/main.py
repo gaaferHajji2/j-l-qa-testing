@@ -178,6 +178,8 @@ for i in range(1000):
     })
 
 # Bulk indexing
+# You can tune chunk_size based on memory and performance. 
+# For high-throughput pipelines, this is the preferred method.
 bulk(es, documents, chunk_size=100)
 print(f"Indexed {len(documents)} documents")
 

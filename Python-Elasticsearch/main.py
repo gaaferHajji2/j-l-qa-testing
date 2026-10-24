@@ -162,26 +162,41 @@ document = {
 # print(f"Index size: {index_stats['indices']['articles']['total']['store']['size_in_bytes']} bytes")
 
 # Generate and prepare documents
-documents = []
-for i in range(1000):
-    documents.append({
-        '_index': 'articles',
-        '_id': i,
-        '_source': {
-            'title': f'Article {i}',
-            'content': f'Content for article number {i}',
-            'publish_date': '2026-10-24',
-            'tags': ['bulk', 'indexing', 'test'],
-            'view_count': i * 10,
-            'rating': 4.0 + (i % 10) * 0.1
-        }
-    })
+# documents = []
+# for i in range(1000):
+#     documents.append({
+#         '_index': 'articles',
+#         '_id': i,
+#         '_source': {
+#             'title': f'Article {i}',
+#             'content': f'Content for article number {i}',
+#             'publish_date': '2026-10-24',
+#             'tags': ['bulk', 'indexing', 'test'],
+#             'view_count': i * 10,
+#             'rating': 4.0 + (i % 10) * 0.1
+#         }
+#     })
 
 # Bulk indexing
 # You can tune chunk_size based on memory and performance. 
 # For high-throughput pipelines, this is the preferred method.
-bulk(es, documents, chunk_size=100)
-print(f"Indexed {len(documents)} documents")
+# bulk(es, documents, chunk_size=100)
+# print(f"Indexed {len(documents)} documents")
+
+search_query = {
+    'query': {
+        'match': {
+            'content': 'Content Article 11'
+        }
+    },
+    'size': 10
+}
+
+response = es.search(index='articles', body=search_query)
+
+print(f"Found {response['hits']['total']['value']} documents")
+for hit in response['hits']['hits']:
+    print(f"Score: {hit['_score']}, Title: {hit['_source']['title']}, Content: {hit['_source']['content']}")
 
 
 es.close()

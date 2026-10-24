@@ -63,24 +63,6 @@ except Exception as e:
 # except Exception as e:
 #     print(f"Connection Failed: {e}")
 
-# Create an index with custom settings
-# index_settings = {
-#     'settings': {
-#         'number_of_shards': 3,
-#         'number_of_replicas': 1,
-#         'refresh_interval': '30s',
-#         'analysis': {
-#             'analyzer': {
-#                 'custom_analyzer': {
-#                     'type': 'custom',
-#                     'tokenizer': 'standard',
-#                     'filter': ['lowercase', 'stop']
-#                 }
-#             }
-#         }
-#     }
-# }
-
 # es.indices.create(index='articles', body=index_settings)
 
 # Update index settings
@@ -93,10 +75,67 @@ except Exception as e:
 
 # es.indices.put_settings(index='articles', body=update_settings)
 
+settings = {
+    "number_of_shards": 3,
+    "number_of_replicas": 1,
+    "refresh_interval": "30s",
+    "analysis": {
+        "analyzer": {
+            "custom_analyzer": {
+                "type": "custom",
+                "tokenizer": "standard",
+                "filter": ["lowercase", "stop"]
+            }
+        }
+    }
+}
+
+mappings = {
+    "properties": {
+        "title": {
+            "type": "text",
+            "analyzer": "standard",
+            "fields": {
+                "keyword": {"type": "keyword"}
+            }
+        },
+        "content": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+        },
+        "publish_date": {
+            "type": "date",
+            "format": "yyyy-MM-dd||epoch_millis"
+        },
+        "author": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "text"},
+                "email": {"type": "keyword"},
+                "bio": {"type": "text"}
+            }
+        },
+        "tags": {"type": "keyword"},
+        "view_count": {"type": "integer"},
+        "rating": {"type": "float"},
+        "metadata": {
+            "type": "object",
+            "enabled": False
+        }
+    }
+}
+
+es.indices.create(
+    index="articles",
+    body={
+        "settings": settings,
+        "mappings": mappings
+    }
+)
+
 # Check index status
 index_stats = es.indices.stats(index='articles')
 print(f"Document count: {index_stats['indices']['articles']['total']['docs']['count']}")
 print(f"Index size: {index_stats['indices']['articles']['total']['store']['size_in_bytes']} bytes")
-
 
 es.close()

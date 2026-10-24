@@ -33,6 +33,8 @@ describe("Utils test suite", () => {
         ])("Test parametrize with $data expected $expected", ({ data, expected }) => {
             expect(toUpperCase(data)).toBe(expected)
         })
+
+        it.todo("Test long strings")
     })
 
     it.concurrent("should test stringInfo function", () => {

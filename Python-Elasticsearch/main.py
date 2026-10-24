@@ -93,4 +93,10 @@ except Exception as e:
 
 # es.indices.put_settings(index='articles', body=update_settings)
 
+# Check index status
+index_stats = es.indices.stats(index='articles')
+print(f"Document count: {index_stats['indices']['articles']['total']['docs']['count']}")
+print(f"Index size: {index_stats['indices']['articles']['total']['store']['size_in_bytes']} bytes")
+
+
 es.close()

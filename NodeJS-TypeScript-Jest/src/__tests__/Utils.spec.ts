@@ -5,7 +5,7 @@ describe("Utils test suite", () => {
         expect(toUpperCase('jloka')).toBe("JLOKA")
     })
 
-    describe("toUpperCase tests", () => {
+    describe.only("toUpperCase tests", () => {
         it.each([
             {data: 'Jafar-Loka-01', expected: 'JAFAR-LOKA-01'},
             {data: 'j-l-01', expected: 'J-L-01'},
@@ -32,7 +32,7 @@ describe("Utils test suite", () => {
         expect(actual.extraInfo).toMatchObject({})
     })
 
-    it.only("should only run", () => {
-        expect(1 + 1).toBe(2)
-    })
+    // it.only("should only run", () => {
+    //     expect(1 + 1).toBe(2)
+    // })
 })

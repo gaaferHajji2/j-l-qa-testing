@@ -1,7 +1,7 @@
 import { getStringInfo, toUpperCase } from "../app/Utils"
 
 describe("Utils test suite", () => {
-    it("should be upper case", () => {
+    it.concurrent("should be upper case", () => {
         expect(toUpperCase('jloka')).toBe("JLOKA")
     })
 
@@ -15,7 +15,17 @@ describe("Utils test suite", () => {
     //     })
     // })
 
-    describe.skip("toUpperCase tests", () => {
+    // describe.skip("toUpperCase tests", () => {
+    //     it.each([
+    //         {data: 'Jafar-Loka-01', expected: 'JAFAR-LOKA-01'},
+    //         {data: 'j-l-01', expected: 'J-L-01'},
+    //         {data: 'Jafar-Test-01', expected: 'JAFAR-TEST-01'},
+    //     ])("Test parametrize with $data expected $expected", ({ data, expected }) => {
+    //         expect(toUpperCase(data)).toBe(expected)
+    //     })
+    // })
+
+    describe("toUpperCase tests", () => {
         it.each([
             {data: 'Jafar-Loka-01', expected: 'JAFAR-LOKA-01'},
             {data: 'j-l-01', expected: 'J-L-01'},
@@ -25,7 +35,7 @@ describe("Utils test suite", () => {
         })
     })
 
-    it("should test stringInfo function", () => {
+    it.concurrent("should test stringInfo function", () => {
         const testData = "Jafar-Loka"
         const actual = getStringInfo(testData)
 

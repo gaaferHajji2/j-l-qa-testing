@@ -31,4 +31,8 @@ describe("Utils test suite", () => {
         expect(actual.characters).toContainEqual<string>('J')
         expect(actual.extraInfo).toMatchObject({})
     })
+
+    it.only("should only run", () => {
+        expect(1 + 1).toBe(2)
+    })
 })

@@ -64,23 +64,23 @@ except Exception as e:
 #     print(f"Connection Failed: {e}")
 
 # Create an index with custom settings
-index_settings = {
-    'settings': {
-        'number_of_shards': 3,
-        'number_of_replicas': 1,
-        'refresh_interval': '30s',
-        'analysis': {
-            'analyzer': {
-                'custom_analyzer': {
-                    'type': 'custom',
-                    'tokenizer': 'standard',
-                    'filter': ['lowercase', 'stop']
-                }
-            }
-        }
-    }
-}
+# index_settings = {
+#     'settings': {
+#         'number_of_shards': 3,
+#         'number_of_replicas': 1,
+#         'refresh_interval': '30s',
+#         'analysis': {
+#             'analyzer': {
+#                 'custom_analyzer': {
+#                     'type': 'custom',
+#                     'tokenizer': 'standard',
+#                     'filter': ['lowercase', 'stop']
+#                 }
+#             }
+#         }
+#     }
+# }
 
-es.indices.create(index='articles', body=index_settings)
+# es.indices.create(index='articles', body=index_settings)
 
 es.close()

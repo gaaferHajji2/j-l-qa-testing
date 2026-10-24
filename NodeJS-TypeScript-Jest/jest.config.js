@@ -12,6 +12,11 @@ module.exports = {
     "\\\\node_modules\\\\",
   ],
 
+  collectCoverage: true,
+  collectCoverageFrom: [
+    '<rootDir>/src/app/**/*.ts'
+  ],
+
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
 

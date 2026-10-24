@@ -1,4 +1,0 @@
-scrapy
-mysql
-mysql-connector-python
-scrapy-selenium

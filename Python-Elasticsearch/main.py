@@ -235,7 +235,7 @@ for hit in response['hits']['hits']:
 
 # Use aggregations to analyze the data.
 agg_query = {
-    'size': 4,
+    'size': 0,
     'aggs': {
         'popular_tags': {
             'terms': {
@@ -258,7 +258,15 @@ agg_query = {
 }
 
 response = es.search(index='articles', body=agg_query)
-for hit in response['hits']['hits']:
-    print(f"The hit for aggregation query is: {hit}")
+print(f"Average rating: {response['aggregations']['avg_rating']['value']}")
+print("\t\t\t", "="*20)
+
+for bucket in response['aggregations']['popular_tags']['buckets']:
+    print(f"Tag: {bucket['key']}, Count: {bucket['doc_count']}")
+print("\t\t\t", "="*20)
+
+for bucket in response['aggregations']['monthly_posts']['buckets']:
+    print(f"Monthly Posts: {bucket['key']}, Count: {bucket['doc_count']}")
+print("\t\t\t", "="*20)
 
 es.close()

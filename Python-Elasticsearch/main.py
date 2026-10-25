@@ -198,6 +198,7 @@ print(f"Found {response['hits']['total']['value']} documents")
 for hit in response['hits']['hits']:
     print(f"Score: {hit['_score']}, Title: {hit['_source']['title']}, Content: {hit['_source']['content']}")
 
+# Use complex query to search the data
 complex_query = {
     'query': {
         'bool': {
@@ -231,5 +232,33 @@ for hit in response['hits']['hits']:
     print(f"The hit is: {hit}")
     print(f"Score: {hit['_score']}, Title: {hit['_source']['title']}, Content: {hit['_source']['content']}")
     print("\t\t\t", "=" * 20)
-    
+
+# Use aggregations to analyze the data.
+agg_query = {
+    'size': 0,
+    'aggs': {
+        'popular_tags': {
+            'terms': {
+                'field': 'tags',
+                'size': 10
+            }
+        },
+        'avg_rating': {
+            'avg': {
+                'field': 'rating'
+            }
+        },
+        'monthly_posts': {
+            'date_histogram': {
+                'field': 'publish_date',
+                'calendar_interval': 'month'
+            }
+        }
+    }
+}
+
+response = es.search(index='articles', body=agg_query)
+for hit in response['hits']['hits']:
+    print(f"The hit for aggregation query is: {hit}")
+
 es.close()

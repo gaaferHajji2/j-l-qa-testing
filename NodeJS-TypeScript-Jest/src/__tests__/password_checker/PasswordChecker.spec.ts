@@ -15,7 +15,7 @@ describe('PasswordChecker Test Suite', () => {
         })
 
         it("Password Must Contain At Least One Lower Case Character", () => {
-            let result = passwordChecker.checkPassword('12345678')
+            let result = passwordChecker.checkPassword('12345678ABC')
             expect(result).toBeFalsy()
         })
 

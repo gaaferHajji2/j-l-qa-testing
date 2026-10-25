@@ -1,4 +1,4 @@
-import { PasswordChecker } from "../../app/password_checker/PasswordChecker";
+import { PasswordChecker, PasswordErrors, type CheckResult } from "../../app/password_checker/PasswordChecker";
 
 
 describe('PasswordChecker Test Suite', () => {
@@ -10,23 +10,39 @@ describe('PasswordChecker Test Suite', () => {
 
     describe("Check The Validation On Password", () => {
         it("Password Length At Least 8 Characters", () => {
-            let result = passwordChecker.checkPassword('123456')
-            expect(result).toBeFalsy()
+            let result: CheckResult = passwordChecker.checkPassword('123456')
+            expect(result.valid).toBeFalsy()
+            expect(result.reasons).toEqual([PasswordErrors.SHORT, PasswordErrors.LOWER, PasswordErrors.UPPER])
+        })
+
+        it("Password Length At Least 8 Characters -- Contain Lower Case Letters", () => {
+            let result: CheckResult = passwordChecker.checkPassword('123abc')
+            expect(result.valid).toBeFalsy()
+        })
+
+        it("Password Length At Least 8 Characters -- Contain Upper Case Letters", () => {
+            let result: CheckResult = passwordChecker.checkPassword('123ABC')
+            expect(result.valid).toBeFalsy()
+        })
+
+        it("Password Must Contain At Least One Lower Case Character -- no characters", () => {
+            let result: CheckResult = passwordChecker.checkPassword('12345678')
+            expect(result.valid).toBeFalsy()
         })
 
         it("Password Must Contain At Least One Lower Case Character", () => {
-            let result = passwordChecker.checkPassword('12345678ABC')
-            expect(result).toBeFalsy()
+            let result: CheckResult = passwordChecker.checkPassword('12345678ABC')
+            expect(result.valid).toBeFalsy()
         })
 
         it("Password Must Contain At Least One Upper Case Character", ()=>{
-            let result = passwordChecker.checkPassword('12345678abc')
-            expect(result).toBeFalsy()
+            let result: CheckResult = passwordChecker.checkPassword('12345678abc')
+            expect(result.valid).toBeFalsy()
         })
 
         it("Should Return True For The Correct Values", ()=> {
-            let result = passwordChecker.checkPassword('12345678abcABC')
-            expect(result).toBeTruthy()
+            let result: CheckResult = passwordChecker.checkPassword('12345678abcABC')
+            expect(result.valid).toBeTruthy()
         })
     })
 })

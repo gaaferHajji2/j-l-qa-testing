@@ -15,13 +15,18 @@ describe('PasswordChecker Test Suite', () => {
         })
 
         it("Password Must Contain At Least One Lower Case Character", () => {
-            let result = passwordChecker.checkPassword('123456')
+            let result = passwordChecker.checkPassword('12345678')
             expect(result).toBeFalsy()
         })
 
         it("Password Must Contain At Least One Upper Case Character", ()=>{
-            let result = passwordChecker.checkPassword('123456')
+            let result = passwordChecker.checkPassword('12345678abc')
             expect(result).toBeFalsy()
+        })
+
+        it("Should Return True For The Correct Values", ()=> {
+            let result = passwordChecker.checkPassword('12345678abcABC')
+            expect(result).toBeTruthy()
         })
     })
 })

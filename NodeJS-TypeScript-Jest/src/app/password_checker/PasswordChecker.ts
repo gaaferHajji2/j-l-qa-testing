@@ -2,8 +2,8 @@
 
 export class PasswordChecker {
 
-    public checkPassword() {
-        
+    public checkPassword(password: string): boolean {
+        return true;
     }
 
 }

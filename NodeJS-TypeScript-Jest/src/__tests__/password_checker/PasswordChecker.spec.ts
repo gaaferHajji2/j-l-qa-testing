@@ -8,9 +8,20 @@ describe('PasswordChecker Test Suite', () => {
         passwordChecker = new PasswordChecker()
     })
 
-    it("Basic Test", () => {
-        passwordChecker.checkPassword()
+    describe("Check The Validation On Password", () => {
+        it("Password Length At Least 8 Characters", () => {
+            let result = passwordChecker.checkPassword('123456')
+            expect(result).toBeFalsy()
+        })
 
-        expect(1 + 1).toBe(2)
+        it("Password Must Contain At Least One Lower Case Character", () => {
+            let result = passwordChecker.checkPassword('123456')
+            expect(result).toBeFalsy()
+        })
+
+        it("Password Must Contain At Least One Upper Case Character", ()=>{
+            let result = passwordChecker.checkPassword('123456')
+            expect(result).toBeFalsy()
+        })
     })
 })

@@ -2,19 +2,25 @@ const { createDefaultPreset } = require("ts-jest");
 
 const tsJestTransformCfg = createDefaultPreset().transform;
 
+const baseDir = '<rootDir>/src/app/password_checker'
+const baseTestDir = '<rootDir>/src/__test__/password_checker'
+
 /** @type {import("jest").Config} **/
 module.exports = {
   testEnvironment: "node",
   transform: {
     ...tsJestTransformCfg,
   },
+  testMatch: [
+    `${baseTestDir}/**/*.ts`
+  ],
   coveragePathIgnorePatterns: [
     "\\\\node_modules\\\\",
   ],
 
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/src/app/**/*.ts'
+    `${baseDir}/**/*.ts`
   ],
 
   // Indicates which provider should be used to instrument code for coverage

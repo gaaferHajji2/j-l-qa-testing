@@ -235,7 +235,7 @@ for hit in response['hits']['hits']:
 
 # Use aggregations to analyze the data.
 agg_query = {
-    'size': 0,
+    'size': 4,
     'aggs': {
         'popular_tags': {
             'terms': {

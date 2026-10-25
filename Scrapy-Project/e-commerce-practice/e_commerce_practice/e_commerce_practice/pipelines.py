@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class SplashScraperPipeline:
+class ECommercePracticePipeline:
     def process_item(self, item):
         return item

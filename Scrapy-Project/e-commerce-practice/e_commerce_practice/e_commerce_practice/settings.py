@@ -1,4 +1,4 @@
-# Scrapy settings for splash_scraper project
+# Scrapy settings for e_commerce_practice project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,16 +7,16 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "splash_scraper"
+BOT_NAME = "e_commerce_practice"
 
-SPIDER_MODULES = ["splash_scraper.spiders"]
-NEWSPIDER_MODULE = "splash_scraper.spiders"
+SPIDER_MODULES = ["e_commerce_practice.spiders"]
+NEWSPIDER_MODULE = "e_commerce_practice.spiders"
 
 ADDONS = {}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "splash_scraper (+http://www.yourdomain.com)"
+#USER_AGENT = "e_commerce_practice (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -41,31 +41,14 @@ DOWNLOAD_DELAY = 1
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "splash_scraper.middlewares.SplashScraperSpiderMiddleware": 543,
+#    "e_commerce_practice.middlewares.ECommercePracticeSpiderMiddleware": 543,
 #}
-
-# set the Splash local server endpoint
-SPLASH_URL = "http://localhost:8050"
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# enable the Splash downloader middleware and 
-# give it a higher priority than HttpCompressionMiddleware
-DOWNLOADER_MIDDLEWARES = {
-    "scrapy_splash.SplashCookiesMiddleware": 723,
-    "scrapy_splash.SplashMiddleware": 725,
-    "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
-}
-
-# enable the Splash deduplication argument filter to
-# make Scrapy Splash saves spice disk on cached requests
-SPIDER_MIDDLEWARES = {
-    "scrapy_splash.SplashDeduplicateArgsMiddleware": 100,
-}
-
-# set the Splash deduplication class
-DUPEFILTER_CLASS = "scrapy_splash.SplashAwareDupeFilter"
-
+#DOWNLOADER_MIDDLEWARES = {
+#    "e_commerce_practice.middlewares.ECommercePracticeDownloaderMiddleware": 543,
+#}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -76,7 +59,7 @@ DUPEFILTER_CLASS = "scrapy_splash.SplashAwareDupeFilter"
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "splash_scraper.pipelines.SplashScraperPipeline": 300,
+#    "e_commerce_practice.pipelines.ECommercePracticePipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

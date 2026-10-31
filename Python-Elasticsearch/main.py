@@ -134,32 +134,32 @@ except Exception as e:
 #     }
 # )
 
-document = {
-    'title': 'Getting Started with Elasticsearch and Python',
-    'content': 'This guide covers how to index documents, run searches, and optimize performance.',
-    'publish_date': '2024-01-15',
-    'author': {
-        'name': 'John Developer',
-        'email': 'john@example.com',
-        'bio': 'Senior Python developer with expertise in search technologies'
-    },
-    'tags': ['elasticsearch', 'python', 'tutorial', 'search'],
-    'view_count': 1250,
-    'rating': 4.7,
-    'metadata': {
-        'source': 'blog',
-        'category': 'technical'
-    }
-}
+# document = {
+#     'title': 'Getting Started with Elasticsearch and Python',
+#     'content': 'This guide covers how to index documents, run searches, and optimize performance.',
+#     'publish_date': '2024-01-15',
+#     'author': {
+#         'name': 'John Developer',
+#         'email': 'john@example.com',
+#         'bio': 'Senior Python developer with expertise in search technologies'
+#     },
+#     'tags': ['elasticsearch', 'python', 'tutorial', 'search'],
+#     'view_count': 1250,
+#     'rating': 4.7,
+#     'metadata': {
+#         'source': 'blog',
+#         'category': 'technical'
+#     }
+# }
 
 # response = es.index(index='articles', id=1, body=document)
 # print(f"Document indexed: {response['result']}")
 
 # Check index status
-# index_stats = es.indices.stats(index='articles')
-# print(f"The index stats is: {index_stats}")
-# print(f"Document count: {index_stats['indices']['articles']['total']['docs']['count']}")
-# print(f"Index size: {index_stats['indices']['articles']['total']['store']['size_in_bytes']} bytes")
+index_stats = es.indices.stats(index='articles')
+print(f"The index stats is: {index_stats}")
+print(f"Document count: {index_stats['indices']['articles']['total']['docs']['count']}")
+print(f"Index size: {index_stats['indices']['articles']['total']['store']['size_in_bytes']} bytes")
 
 # Generate and prepare documents
 # documents = []

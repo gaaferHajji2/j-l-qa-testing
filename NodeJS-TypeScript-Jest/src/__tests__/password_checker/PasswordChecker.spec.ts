@@ -50,11 +50,32 @@ describe('PasswordChecker Test Suite', () => {
             expect(result.reasons).not.toContain(PasswordErrors.SHORT)
         })
 
-        it("Should Return True For The Correct Values", ()=> {
+        it("Should Return True For The Correct Values", () => {
             let result: CheckResult = passwordChecker.checkPassword('12345678abcABC')
             expect(result.valid).toBeTruthy()
             expect(result.reasons).toEqual([])
             expect(result.reasons).not.toContain(PasswordErrors.SHORT)
+        })
+
+        it("Should Not Valid Admin Password Contain No Number And Return False", () => {
+            const result = passwordChecker.checkPassword("JafarLoka-ITE-Developer", true)
+
+            expect(result.valid).toBeFalsy()
+            expect(result.reasons).toContain(PasswordErrors.NUMBER)
+        })
+
+        it("Should Valid Admin Password Contain Number And Return True", () => {
+            const result = passwordChecker.checkPassword("JafarLoka-01", true)
+            expect(result.valid).toBeTruthy()
+            expect(result.reasons).not.toContain(PasswordErrors.NUMBER)
+            expect(result.reasons).toEqual([])
+        })
+
+        it("Should Valid Normal User Password Without Number To Return Truthy", () => {
+            const result = passwordChecker.checkPassword("JafarLoka-ITE-Developer")
+            expect(result.valid).toBeTruthy()
+            expect(result.reasons).not.toContain(PasswordErrors.NUMBER)
+            expect(result.reasons).toEqual([])
         })
     })
 })

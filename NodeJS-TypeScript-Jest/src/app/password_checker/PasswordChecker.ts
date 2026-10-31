@@ -50,7 +50,7 @@ export class PasswordChecker {
     }
 
     private checkNoNumberPassword(password: string, result: CheckResult) {
-        if(!password.match(/[0-9]/)){
+        if(!password.match(/\d/)){
             result.valid = false
             result.reasons.push(PasswordErrors.NUMBER)
         }

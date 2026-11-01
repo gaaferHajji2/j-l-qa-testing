@@ -1,5 +1,5 @@
 import scrapy
-
+from scrapy.http import Request
 
 class EcomscraperSpider(scrapy.Spider):
     name = "ecomscraper"
@@ -11,3 +11,8 @@ class EcomscraperSpider(scrapy.Spider):
         for category in categories:
             print(f"The Extracted Category: {category}")
             print("\t\t", "="*25)
+
+            yield Request(category, callback=self.parse_category_products)
+
+    def parse_category_products(self, response):
+        pass

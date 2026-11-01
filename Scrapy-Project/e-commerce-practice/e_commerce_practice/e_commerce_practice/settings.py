@@ -87,5 +87,12 @@ DOWNLOAD_DELAY = 1
 FEED_EXPORT_ENCODING = "utf-8"
 
 FEEDS = {
-    "categories_data.json": { 'format': 'json', 'overwrite': True }
+    "categories_data.json": { 
+        'format': 'json',
+        'encoding': 'utf8',
+        'store_empty': False,
+        'fields': None, # Specify explicit fields to export if needed
+        'indent': 4,    # Pretty-prints the JSON with a 4-space indent
+        'overwrite': True
+    }
 }

@@ -15,4 +15,9 @@ class EcomscraperSpider(scrapy.Spider):
             yield Request(category, callback=self.parse_category_products)
 
     def parse_category_products(self, response):
-        pass
+        products = response.xpath("//div[@class='cardCollection__card']//a//picture//img/@data-src").extract()
+        print(f"The Length Of Products is: {len(products)}")
+        print("\t\t", "+"*25)
+        for product in products:
+            print(f"The Extracted Product Image: {product}")
+            print("\t\t", "="*25)

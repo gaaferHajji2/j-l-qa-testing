@@ -23,3 +23,17 @@ export function toUppercaseWithCallback(arg: string, callback: fnWithString) {
     callback(`Callback with: ${arg}`)
     return arg.toUpperCase()
 }
+
+export class JStringUtils {
+    public toUpperCase(arg: string): string {
+        if(arg == undefined){
+            throw new Error('Illegal Argument!')
+        }
+
+        return arg.toUpperCase()
+    }
+
+    public logString(arg: string): void {
+        console.log(arg)
+    }
+}

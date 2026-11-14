@@ -4,3 +4,4 @@ locust_plugins
 websockets
 redis
 gevent
+dotenv

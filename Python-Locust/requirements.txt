@@ -2,3 +2,5 @@ locust
 websocket-client
 locust_plugins
 websockets
+redis
+gevent

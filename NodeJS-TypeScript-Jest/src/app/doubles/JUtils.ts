@@ -26,7 +26,7 @@ export function toUppercaseWithCallback(arg: string, callback: fnWithString) {
 
 export class JStringUtils {
     public toUpperCase(arg: string): string {
-        if(arg == undefined){
+        if (!arg) {
             throw new Error('Illegal Argument!')
         }
 

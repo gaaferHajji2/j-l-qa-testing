@@ -1,4 +1,5 @@
 import json
+import re
 import scrapy
 from scrapy.http import Request
 from e_commerce_practice.items import ProductItem
@@ -25,9 +26,31 @@ class EcomscraperSpider(scrapy.Spider):
             yield Request(product, callback=self.parse_product_data)
 
     def parse_product_data(self, response):
-        json_data_str= response.xpath('//script[contains(text(), "cif_productData")]/text()').extract()[0].split('cif_productData = "')[1].split('responseData')[0].strip()[:-2].replace('\\x22', '"')
-        #print(json_data_str)
-        json_data = json.loads(json_data_str)
+        # json_data_str= response.xpath('//script[contains(text(), "cif_productData")]/text()').extract()[0].split('cif_productData = "')[1].split('responseData')[0].strip()[:-2]
+        # json_data_str= response.xpath('//script[contains(text(), "cif_productData")]/text()').extract()[0].split('cif_productData = "')[1].split('responseData')[0]
+        
+        script_text = response.xpath('//script[contains(text(), "cif_productData")]/text()').get()
+
+        if not script_text:
+            self.logger.warning("No cif_productData found")
+            return
+
+        # Use regex to extract the JSON string from the JavaScript variable
+        match = re.search(r'cif_productData\s*=\s*"([^"]*(?:\\.[^"]*)*)"', script_text)
+        
+        if not match:
+            self.logger.warning("Could not extract cif_productData JSON")
+            return
+        
+        json_string = match.group(1)
+
+        print("\t\t", "=" * 25)
+        print(f"The Json Data String is: {json_string}")
+        print("\t\t", "=" * 25)
+        
+        json_string = json_string.encode().decode('unicode_escape')
+        json_data = json.loads(json_string)
+        
         product_code = json_data['responseData']['sku']
         full_price = json_data['responseData']['price_range']['maximum_price']['regular_price']['value']
         price = json_data['responseData']['price_range']['maximum_price']['final_price']['value']
@@ -45,8 +68,8 @@ class EcomscraperSpider(scrapy.Spider):
             price = price,
             currency_code = currency_code,
             country_code = 'GBR',
-            item_URL = itemurl,
-            image_URL = image_url,
+            item_url = itemurl,
+            image_url = image_url,
             product_name = product_name,
             gender = gender,
             product_category = product_category,

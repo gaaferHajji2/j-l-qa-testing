@@ -68,11 +68,31 @@ describe("Testing Spies", () => {
         expect(toUpperSpy).toHaveBeenCalledWith("Jafar-Loka")
     })
 
+    test('Empy String', async () => {
+        const toUpperSpy = jest.spyOn(sut, 'toUpperCase').mockResolvedValueOnce(Promise.resolve(""))
+        const res1 = await sut.toUpperCase("")
+
+        expect(res1).toEqual("")
+        expect(toUpperSpy).toHaveBeenCalledTimes(1)
+        expect(toUpperSpy).toHaveBeenCalledWith("")
+    })
+
     test("Test Throw Error", () => {
         jest.spyOn(sut, 'toUpperCase').mockImplementation(() => {
             throw new Error('Illegal Argument!')
         })
 
         expect(() => sut.toUpperCase(undefined)).toThrow('Illegal Argument!')
+    })
+
+    test("Test Log String", () => {
+        jest.spyOn(console, 'log')
+        let logString = jest.spyOn(sut, 'logString')
+        sut.logString("Jafar-Loka")
+
+        expect(logString).toHaveBeenCalledTimes(1)
+        expect(logString).toHaveBeenCalledWith('Jafar-Loka')
+        expect(console.log).toHaveBeenCalledTimes(1)
+        expect(console.log).toHaveBeenCalledWith('Jafar-Loka')
     })
 })

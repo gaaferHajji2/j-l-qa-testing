@@ -1,4 +1,4 @@
-import { calculateComplexity, toUppercaseWithCallback, type stringInfo } from "../../app/doubles/JUtils"
+import { calculateComplexity, JStringUtils, toUppercaseWithCallback, type stringInfo } from "../../app/doubles/JUtils"
 
 describe("Test Doubles", () => {
     test("Test Object With Data", () => {
@@ -44,5 +44,35 @@ describe("Test Doubles", () => {
         expect(callback).toHaveBeenCalledWith(`Invalid Argument!`)
         expect(callback).toHaveBeenCalledTimes(1)
         expect(result).toBe(undefined)
+    })
+})
+
+describe("Testing Spies", () => {
+    let sut: JStringUtils
+
+    beforeEach(() => {
+        sut = new JStringUtils()
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    test("Test On To Upper Case", async () => {
+        const toUpperSpy = jest.spyOn(sut, 'toUpperCase').mockResolvedValueOnce(Promise.resolve("JAFAR-LOKA"))
+        const res1 = await sut.toUpperCase("Jafar-Loka")
+
+        expect(res1).toEqual("JAFAR-LOKA")
+        expect(toUpperSpy).toHaveBeenCalledTimes(1)
+        expect(toUpperSpy).toHaveBeenCalledWith("Jafar-Loka")
+    })
+
+    test("Test Throw Error", () => {
+        jest.spyOn(sut, 'toUpperCase').mockImplementation(() => {
+            throw new Error('Illegal Argument!')
+        })
+
+        expect(() => sut.toUpperCase(undefined)).toThrow('Illegal Argument!')
     })
 })
